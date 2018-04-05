@@ -1,1 +1,1 @@
-# openvpn
+Containerised OpenVPN. Originally built for CoreOS.

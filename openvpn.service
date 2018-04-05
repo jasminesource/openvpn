@@ -1,0 +1,21 @@
+#openvpn.service:
+
+[Unit]
+Description=OpenVPN
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Environment="LOCAL_DATA_DIR={{ local_openvpn_data_dir }}"
+Environment="OVPN_DATA_DIR={{ openvpn_data_dir }}"
+Environment="OVPN_CFG= {{ openvpn_conf_file_name }}"
+Environment="OVPN_IMAGE=jasminesource/openvpn:latest"
+Environment="OVPN_CONTAINER_NAME=openvpn"
+
+ExecStartPre=-/usr/bin/docker stop ${OVPN_CONTAINER_NAME}
+ExecStartPre=-/usr/bin/docker rm ${OVPN_CONTAINER_NAME}
+ExecStart=/usr/bin/docker run --cap-add=NET_ADMIN \
+  --device /dev/net/tun --name ${OVPN_CONTAINER_NAME} -v ${LOCAL_DATA_DIR}:${OVPN_DATA_DIR} \
+  --net=host ${OVPN_IMAGE} --config ${OVPN_DATA_DIR}/${OVPN_CFG}
+ExecStop=/usr/bin/docker stop ${OVPN_CONTAINER_NAME}
