@@ -9,4 +9,3 @@ RUN export DEBIAN_FRONTEND='noninteractive' && \
 
 VOLUME ["/vpn"]
 ENTRYPOINT ["openvpn"]
-CMD [ "--config", "{{openvpn_conf_dir}}/server.conf" ]
