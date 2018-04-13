@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:buster-slim
 MAINTAINER foo@example.com
 RUN export DEBIAN_FRONTEND='noninteractive' && \
     apt-get update -qq && \
